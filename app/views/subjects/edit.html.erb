@@ -1,0 +1,14 @@
+ <% @subject.each do |s| %>
+    <h1><%= s.dname %></h1>
+    <p id="description"><%= s.loading %></p>
+
+<%= form_for s , :url => "/subjects/#{s.id}", :html => {:method => :put} do |f| %>
+  <div class="field">
+    <%= f.select :tname, options_from_collection_for_select(Teacher.all, :id, :name) %>
+  </div>
+  <%= f.hidden_field :id, :value => s.id %>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+<% end %>

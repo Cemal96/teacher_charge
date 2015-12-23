@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+
+  match '/subjects',    to: 'subjects#index',    via: 'get', as: 'subjects'
+  match '/teachers',    to: 'teachers#index',    via: 'get', as: 'teachers'
+  get    'subjects/:id/edit'   => 'subjects#edit'
+  put    'subjects/:id' => 'subjects#update'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

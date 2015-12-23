@@ -1,0 +1,19 @@
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Викладач</th>
+        <th>Посада</th>
+        <th>Навантаження</th>
+      </tr>
+    </thead>
+    <tbody>
+	    <% @teachers.each do |f| %>
+	      <tr>
+			    <td><%= f.name %></td>
+	        <td><%= f.position %></td>
+	        <td><%= f.sumload%></td>
+          <td><%= link_to "Замінити викладача", "/index/#{f.id}/edit" %></td>
+	      </tr>
+	    <% end %>
+    </tbody>
+  </table>
