@@ -1,9 +1,11 @@
-<table class="table table-hover">
+<div class="container">
+  <table class="table table-hover">
     <thead>
       <tr>
         <th>Викладач</th>
         <th>Посада</th>
         <th>Навантаження</th>
+        <th>К-сть предметів</th>
       </tr>
     </thead>
     <tbody>
@@ -11,9 +13,16 @@
 	      <tr>
 			    <td><%= f.name %></td>
 	        <td><%= f.position %></td>
-	        <td><%= f.sumload%></td>
+          <% if f.sumload != nil %>
+  	        <td><%= f.sumload %></td>
+            <td><%= f.count %></td>
+          <% else %>
+            <td>Відсутнє</td>
+            <td><%= f.count %></td>
+          <% end %>
           <td><%= link_to "Замінити викладача", "/index/#{f.id}/edit" %></td>
 	      </tr>
 	    <% end %>
     </tbody>
   </table>
+</div>

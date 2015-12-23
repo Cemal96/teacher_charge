@@ -1,0 +1,18 @@
+<%= form_for(@subject, url: {action: "create"}) do |f| %>
+  <div class="field">
+    <%= f.select :id_disc, options_from_collection_for_select(@disciplines, :id, :name) %>
+  </div>
+  <div class="field">
+    <%= f.select :id_type, options_from_collection_for_select(@types, :id, :type) %>
+  </div>
+  <div class="field">
+    <%= f.select :id_teach, options_from_collection_for_select(@teachers, :id, :name) %>
+  </div>
+  <div class="field">
+    <%= f.label :username %><br>
+    <%= f.text_field :loading%>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
