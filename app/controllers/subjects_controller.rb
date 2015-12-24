@@ -38,15 +38,21 @@ class SubjectsController < ApplicationController
   end
 
   def create
+    if params[:subject][:id_teach] == ""
+      params[:subject][:id_teach] = "NULL"
+    end
     @subject = Subject.new
     @discipline = Discipline.find_by id: params[:subject][:id_disc]
     @type = Type.find_by id: params[:subject][:id_type]
+    @subjector = Subject.where(:id_disc => params[:subject][:id_disc]).where(:id_type=>params[:subject][:id_type]).first
     #@teacher = Teacher.find_by id: params[:subject][:id_teach]
-    if @discipline == nil || @type == nil
-      sql = ActiveRecord::Base.connection()
-      sql.execute("INSERT INTO subjects 
-                 (id_disc,id_type,id_teach,loading)
-                  VALUES (#{params[:subject][:id_disc]}, #{params[:subject][:id_type]}, #{params[:subject][:id_teach]}, #{params[:subject][:loading]});")
+    #Subject.find(:conditions=>["id_disc=? and id_type=?",params[:subject][:id_disc], params[:subject][:id_type]])
+    if @subjector == nil
+        sql = ActiveRecord::Base.connection()
+        sql.execute("INSERT INTO subjects 
+                   (id_disc,id_type,id_teach,loading)
+                    VALUES (#{params[:subject][:id_disc]}, #{params[:subject][:id_type]}, 
+                      #{params[:subject][:id_teach]}, #{params[:subject][:loading]});")
     end
     redirect_to subjects_path
   end
