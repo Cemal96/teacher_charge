@@ -1,0 +1,17 @@
+<div class="container">
+<%= form_for(@teacher, url: {action: "create"}) do |f| %>
+  <div class="field">
+    <p>Ім’я</p>
+    <p><%= f.text_field :name, class: "form-control"%></p>
+  </div>
+  <div class="field">
+
+
+    <% @formlist = ['Асистент', 'Профессор','Старший викладач','Доцент'] %>
+    <p><%= f.select(:position, @formlist.map { |value| [ value, value ] },{}, {:class => "form-control"}) %></p>
+  </div>
+  <div class="actions">
+    <%= f.submit 'Створити', :class => 'btn btn-default' %>
+  </div>
+<% end %>
+</div>

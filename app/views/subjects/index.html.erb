@@ -16,7 +16,7 @@
 	        <td><%= s.tname %></td>
 	        <td><%= s.loading %></td>
           <td><%= link_to "Замінити викладача", "/subjects/#{s.id}/edit" %></td>
-          <td><%= link_to 'Destroy', s, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to 'Видалити', s, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 	      </tr>
 	    <% end %>
     </tbody>

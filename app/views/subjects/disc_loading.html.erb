@@ -1,0 +1,18 @@
+<div class="container">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Дисципліна</th>
+        <th>Навантаження</th>
+      </tr>
+    </thead>
+    <tbody>
+	    <% @subjects.each do |s| %>
+	      <tr>
+			    <td><%= s.name %></td>
+	        <td><%= s.sumload %></td>
+	      </tr>
+	    <% end %>
+    </tbody>
+  </table>
+</div>

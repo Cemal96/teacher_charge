@@ -1,14 +1,26 @@
+ <div class="container">
  <% @subject.each do |s| %>
     <h1><%= s.dname %></h1>
-    <p id="description"><%= s.loading %></p>
+    <p>Тип дисципліни: <%= s.type %></p>
+    <p>Годин навантаження: <%= s.loading %></p>
+
 
 <%= form_for s , :url => "/subjects/#{s.id}", :html => {:method => :put} do |f| %>
-  <div class="field">
-    <%= f.select :tname, options_from_collection_for_select(Teacher.all, :id, :name) %>
-  </div>
+  
+  <% if s.type != 'Практичне заняття' && s.type != 'Лабораторні роботи' %>
+  <% @teacher_exclude_list = ['Асистент'] %>
+    <div class="field">
+      <p><%= f.collection_select(:tname, Teacher.where("position NOT IN (?)", @teacher_exclude_list), :id, :name,
+                    {:include_blank => "Прибрати викладача"}, {:class => "form-control"}) %></p>
+    </div>
+  <% else %>
+    <p><%= f.collection_select(:tname, Teacher.all, :id, :name,
+                    {:include_blank => "Прибрати викладача"}, {:class => "form-control"}) %></p>
+  <% end %>
   <%= f.hidden_field :id, :value => s.id %>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Призначити', :class => 'btn btn-default' %>
   </div>
 <% end %>
 <% end %>
+</div>

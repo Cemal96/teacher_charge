@@ -20,7 +20,14 @@
             <td>Відсутнє</td>
             <td><%= f.count %></td>
           <% end %>
-          <td><%= link_to "Замінити викладача", "/index/#{f.id}/edit" %></td>
+          <% if f.sumload != nil %>
+            <% if f.sumload <= 900 %>
+              <td><%= link_to "Призначити викладача", "teachers/teacher_null/#{f.id}" %></td>
+            <% end %>
+          <% else %>
+            <td><%= link_to "Призначити викладача", "teachers/teacher_null/#{f.id}" %></td>
+          <% end %>
+          <td><%= link_to 'Звільнити', f, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 	      </tr>
 	    <% end %>
     </tbody>

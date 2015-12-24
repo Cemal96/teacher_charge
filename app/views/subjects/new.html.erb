@@ -1,18 +1,22 @@
+<div class="container">
 <%= form_for(@subject, url: {action: "create"}) do |f| %>
   <div class="field">
-    <%= f.select :id_disc, options_from_collection_for_select(@disciplines, :id, :name) %>
+    <p><%= f.select :id_disc, options_from_collection_for_select(@disciplines, :id, :name),{}, {:class => "form-control"} %></p>
   </div>
   <div class="field">
-    <%= f.select :id_type, options_from_collection_for_select(@types, :id, :type) %>
+    <p><%= f.select :id_type, options_from_collection_for_select(@types, :id, :type),{}, {:class => "form-control"} %></p>
   </div>
   <div class="field">
-    <%= f.select :id_teach, options_from_collection_for_select(@teachers, :id, :name) %>
+  <% @teacher_exclude_list = ['Асистент'] %>
+    <p><%= f.collection_select(:id_teach, Teacher.where("position NOT IN (?)", @teacher_exclude_list), :id, :name,
+                    {:include_blank => "Без викладача"}, {:class => "form-control"}) %></p>
   </div>
   <div class="field">
-    <%= f.label :username %><br>
-    <%= f.text_field :loading%>
+    <p>Навантаження</p> 
+    <%= f.text_field :loading, class: "form-control" %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Створити', :class => 'btn btn-default' %>
   </div>
 <% end %>
+</div>

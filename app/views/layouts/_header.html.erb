@@ -11,15 +11,16 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li class="<%= 'active' if current_page?(subjects_path) %>"><%= link_to "Предмети",    subjects_path %></li>
+        <li class="<%= 'active' if current_page?(teachers_path) %>"><%= link_to "Викладачі",    teachers_path %></li>
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Places <span class="caret"></span></a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Додаткові функції <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><%= link_to "Park",    "#" %></li>
-            <li><a href="#">Empty now</a></li>
-            <li><a href="#">Empty now</a></li>
+            <li><%= link_to "Створити новий предмет",    subjects_new_path %></li>
+            <li><%= link_to "Додати викладача",    teachers_new_path %></li>
+            <li><%= link_to "Предмети без викладача",    teachers_teacher_null_path %></li>
+            <li><%= link_to "Навантаження на дисципліни",    disciplines_path %></li>
           </ul>
         </li>
-        <li class="<%= 'active' if current_page?(teachers_path) %>"><%= link_to "Викладачі",    teachers_path %></li>
       </ul>
     </div>
   </div>

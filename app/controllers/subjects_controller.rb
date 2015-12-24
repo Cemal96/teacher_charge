@@ -13,6 +13,15 @@ class SubjectsController < ApplicationController
                               ORDER BY disciplines.name, type;"])
 	end
 
+  def disc_loading
+    @subjects = Subject.find_by_sql(["SELECT name AS name,
+                                      SUM(loading) AS sumload FROM disciplines
+                                      LEFT JOIN subjects
+                                      ON disciplines.id = subjects.id_disc
+                                      GROUP BY name
+                                      ORDER BY sumload;"])
+  end
+
   def edit
     find_subject
   end
@@ -30,22 +39,35 @@ class SubjectsController < ApplicationController
 
   def create
     @subject = Subject.new
-
-    sql = ActiveRecord::Base.connection()
-    sql.execute("INSERT INTO subjects 
-               (id_disc,id_type,id_teach,loading)
-                VALUES (#{params[:subject][:id_disc]}, #{params[:subject][:id_type]}, #{params[:subject][:id_teach]}, #{params[:subject][:loading]});")
+    @discipline = Discipline.find_by id: params[:subject][:id_disc]
+    @type = Type.find_by id: params[:subject][:id_type]
+    #@teacher = Teacher.find_by id: params[:subject][:id_teach]
+    if @discipline == nil || @type == nil
+      sql = ActiveRecord::Base.connection()
+      sql.execute("INSERT INTO subjects 
+                 (id_disc,id_type,id_teach,loading)
+                  VALUES (#{params[:subject][:id_disc]}, #{params[:subject][:id_type]}, #{params[:subject][:id_teach]}, #{params[:subject][:loading]});")
+    end
     redirect_to subjects_path
   end
 
   def update
+
     @subject = Subject.find(params[:id])
     @teacher = Teacher.find_by id: params[:subject][:tname]
-    t_id = @teacher.id
-    s_id = @subject.id
+    if @teacher != nil
+      t_id = @teacher.id
+      s_id = @subject.id
 
-    sql = ActiveRecord::Base.connection()
-    sql.execute("update subjects set id_teach= #{t_id} where id=#{s_id}")
+      sql = ActiveRecord::Base.connection()
+      sql.execute("update subjects set id_teach= #{t_id} where id=#{s_id}")
+    else
+      @subject = Subject.find(params[:id])
+      s_id = @subject.id
+
+      sql = ActiveRecord::Base.connection()
+      sql.execute("update subjects set id_teach= NULL where id=#{s_id}")
+    end
     redirect_to subjects_path
   end
 
@@ -55,6 +77,8 @@ class SubjectsController < ApplicationController
                 WHERE id = #{params[:id]};")
     redirect_to subjects_path
   end
+
+
 
   private
     def find_subject
@@ -71,6 +95,3 @@ class SubjectsController < ApplicationController
                               WHERE subjects.id = :id;", {:id => params[:id]}])
     end
 end
-
-        #Subject.connection.update(“update subjects set id_teach=#{@teacher.id} where id=#{@subject.id}”)
-        #@subject.update(id_teach: @teacher.id)
